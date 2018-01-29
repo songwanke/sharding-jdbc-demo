@@ -19,4 +19,6 @@ public class ShardingJdbcDataMain{
     public static void main(String[] args) {
         SpringApplication.run(ShardingJdbcDataMain.class,args);
     }
+
+
 }
