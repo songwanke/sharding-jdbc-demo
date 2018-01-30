@@ -30,4 +30,10 @@ public interface OrderService {
      * @return
      */
     List<Order> selector();
+
+    /**
+     * 查询所有
+     * @return
+     */
+    List<Order> selectAll();
 }

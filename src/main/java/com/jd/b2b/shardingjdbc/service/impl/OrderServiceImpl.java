@@ -48,4 +48,10 @@ public class OrderServiceImpl implements OrderService{
     public List<Order> selector() {
         return orderMapper.selector();
     }
+
+
+    @Override
+    public List<Order> selectAll() {
+        return orderMapper.selectAll();
+    }
 }

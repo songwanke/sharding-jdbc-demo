@@ -1,17 +1,23 @@
 package com.jd.b2b.shardingjdbc.domain;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author songwanke
  */
 public final class OrderItem {
-    
+
+    @ApiModelProperty(name = "orderItemId",hidden = true)
     private long orderItemId;
-    
+
+    @ApiModelProperty("orderId")
     private long orderId;
-    
+
+    @ApiModelProperty("userId")
     private int userId;
-    
+
+    @ApiModelProperty("status")
     private String status;
     
     public long getOrderItemId() {

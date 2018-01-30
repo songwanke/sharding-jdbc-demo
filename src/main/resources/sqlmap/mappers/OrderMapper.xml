@@ -53,4 +53,11 @@
             or
             o.order_id = 3
     </select>
+
+    <select id="selectAll" resultType="com.jd.b2b.shardingjdbc.domain.Order">
+        SELECT
+        *
+        FROM
+        t_order
+    </select>
 </mapper>

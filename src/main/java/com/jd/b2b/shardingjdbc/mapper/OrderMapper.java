@@ -18,4 +18,6 @@ public interface OrderMapper {
 
 
     List<Order> selector();
+
+    List<Order> selectAll();
 }
