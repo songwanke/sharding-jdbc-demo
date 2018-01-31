@@ -7,6 +7,7 @@
     <groupId>com.jd.b2b.shardingjdbc</groupId>
     <artifactId>b2b-service-shardingjdbc</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
