@@ -36,3 +36,70 @@ preparedStatement2.executeUpdate();
 下图为sharding-jdbc执行的部分流程：  
 ![](./img/sharding-jdbc读写分离执行的部分流程图.png)  
 
+sharding-jdbc使用ShardingPreparedStatement来替代PreparedStatement，在执行ShardingPreparedStatement的executeXX方法时，通过路由计算，得到PreparedStatementUnit单元列表，然后执行后合并结果返回，而PreparedStatementUnit只不过封装了原生的PreparedStatement。读写分离最关键的地方在上图标绿色的地方，也就是生成PreparedStatement的地方。 
+在使用SQLEcecutionUnit转换为PreparedStatement的时候，有一个重要的步骤就是必须先获取Connection，源码如下：
+```
+public Connection getConnection(final String dataSourceName, final SQLType sqlType) throws SQLException {
+        if (getCachedConnections().containsKey(dataSourceName)) {
+            return getCachedConnections().get(dataSourceName);
+        }
+        DataSource dataSource = shardingContext.getShardingRule().getDataSourceRule().getDataSource(dataSourceName);
+        Preconditions.checkState(null != dataSource, "Missing the rule of %s in DataSourceRule", dataSourceName);
+        String realDataSourceName;
+        if (dataSource instanceof MasterSlaveDataSource) {
+            NamedDataSource namedDataSource = ((MasterSlaveDataSource) dataSource).getDataSource(sqlType);
+            realDataSourceName = namedDataSource.getName();
+            if (getCachedConnections().containsKey(realDataSourceName)) {
+                return getCachedConnections().get(realDataSourceName);
+            }
+            dataSource = namedDataSource.getDataSource();
+        } else {
+            realDataSourceName = dataSourceName;
+        }
+        Connection result = dataSource.getConnection();
+        getCachedConnections().put(realDataSourceName, result);
+        replayMethodsInvocation(result);
+        return result;
+    }
+```  
+如果发现数据源对象为MasterSlaveDataSource类型，则会使用如下方式获取真正的数据源：
+```
+public NamedDataSource getDataSource(final SQLType sqlType) {
+    if (isMasterRoute(sqlType)) {
+        DML_FLAG.set(true);
+        return new NamedDataSource(masterDataSourceName, masterDataSource);
+    }
+    String selectedSourceName = masterSlaveLoadBalanceStrategy.getDataSource(name, masterDataSourceName, new ArrayList<>(slaveDataSources.keySet()));
+    DataSource selectedSource = selectedSourceName.equals(masterDataSourceName) ? masterDataSource : slaveDataSources.get(selectedSourceName);
+    Preconditions.checkNotNull(selectedSource, "");
+    return new NamedDataSource(selectedSourceName, selectedSource);
+}
+private static boolean isMasterRoute(final SQLType sqlType) {
+    return SQLType.DQL != sqlType || DML_FLAG.get() || HintManagerHolder.isMasterRouteOnly();
+}
+```  
+有三种情况会认为一定要走主库： 
+> * 不是查询类型的语句，比如更新字段 
+> * DML_FLAG变量为true的时候 
+> * 强制Hint方式走主库  
+当执行了更新语句的时候，isMasterRoute()==true，这时候，Connection为主库的连接，并且引擎会强制设置DML_FLAG的值为true，这样一个请求后续的所有读操作都会走主库。   
+有些时候，我们想强制走主库，这时候在请求最开始执行Hint操作即可，如下所示：
+```
+HintManager hintManager = HintManager.getInstance();
+hintManager.setMasterRouteOnly();
+```  
+在获取数据源的时候，如果走的是从库，会使用从库负载均衡算法类进行处理，该类的实现比较简单，如下所示：  
+```
+public final class RoundRobinMasterSlaveLoadBalanceStrategy implements MasterSlaveLoadBalanceStrategy {
+
+    private static final ConcurrentHashMap<String, AtomicInteger> COUNT_MAP = new ConcurrentHashMap<>();
+
+    @Override
+    public String getDataSource(final String name, final String masterDataSourceName, final List<String> slaveDataSourceNames) {
+        AtomicInteger count = COUNT_MAP.containsKey(name) ? COUNT_MAP.get(name) : new AtomicInteger(0);
+        COUNT_MAP.putIfAbsent(name, count);
+        count.compareAndSet(slaveDataSourceNames.size(), 0);
+        return slaveDataSourceNames.get(count.getAndIncrement() % slaveDataSourceNames.size());
+    }
+}
+```  
