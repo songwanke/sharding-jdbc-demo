@@ -9,46 +9,46 @@ import io.swagger.annotations.ApiModelProperty;
 public final class OrderItem {
 
     @ApiModelProperty(name = "orderItemId",hidden = true)
-    private long orderItemId;
+    private Long orderItemId;
 
     @ApiModelProperty("orderId")
-    private long orderId;
+    private Long orderId;
 
     @ApiModelProperty("userId")
-    private int userId;
+    private Integer userId;
 
     @ApiModelProperty("status")
     private String status;
-    
-    public long getOrderItemId() {
+
+    public Long getOrderItemId() {
         return orderItemId;
     }
-    
-    public void setOrderItemId(final long orderItemId) {
+
+    public void setOrderItemId(Long orderItemId) {
         this.orderItemId = orderItemId;
     }
-    
-    public long getOrderId() {
+
+    public Long getOrderId() {
         return orderId;
     }
-    
-    public void setOrderId(final long orderId) {
+
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
-    
-    public int getUserId() {
+
+    public Integer getUserId() {
         return userId;
     }
-    
-    public void setUserId(final int userId) {
+
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    
+
     public String getStatus() {
         return status;
     }
-    
-    public void setStatus(final String status) {
+
+    public void setStatus(String status) {
         this.status = status;
     }
 

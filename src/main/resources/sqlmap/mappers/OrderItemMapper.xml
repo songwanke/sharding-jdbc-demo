@@ -31,5 +31,6 @@
         t_order o, t_order_item i
         WHERE
         o.order_id = i.order_id
+        limit 10
     </select>
 </mapper>

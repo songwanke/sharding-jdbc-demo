@@ -23,12 +23,12 @@ public class OrderItemController {
     private OrderItemService orderItemService;
 
     @RequestMapping(value = "/selectAll",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8")
-    public Integer selectAll(){
+    public List<OrderItem> selectAll(){
 
         List<OrderItem> orderItems = orderItemService.selectAll();
         log.info("orderItems：{}",orderItems.size());
 
-        return orderItems.size();
+        return orderItems;
     }
 
     @RequestMapping(value = "/insert",method = {RequestMethod.POST},produces = "application/json;charset=UTF-8")

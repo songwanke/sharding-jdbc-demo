@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author songwanke
  * @date 2018/1/23
  */
-@MapperScan(basePackages = "com.jd.b2b.shardingjdbc.mapper")
+@MapperScan("com.jd.b2b.shardingjdbc.mapper")
 @SpringBootApplication
 @EnableDiscoveryClient
 public class ShardingJdbcDataMain extends SpringBootServletInitializer{

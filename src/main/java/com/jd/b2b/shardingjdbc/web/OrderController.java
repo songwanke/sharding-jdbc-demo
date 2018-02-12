@@ -29,11 +29,17 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/selectAll",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8")
-    public Integer selectAll() throws Exception {
+    public List<Order> selctAll() throws Exception {
 
         List<Order> orders = orderService.selectAll();
         log.info("orders：{},orders.size:{}",orders,orders.size());
+        return orders;
+    }
 
-        return orders.size();
+    @RequestMapping(value = "/test",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8")
+    public String test() throws Exception {
+
+
+        return "";
     }
 }

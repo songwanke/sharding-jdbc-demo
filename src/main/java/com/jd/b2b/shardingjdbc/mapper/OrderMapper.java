@@ -5,7 +5,6 @@ import com.jd.b2b.shardingjdbc.domain.Order;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
 public interface OrderMapper {
 
     Long insert(Order model);

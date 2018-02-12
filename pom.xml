@@ -93,11 +93,11 @@
         </dependency>
 
         <!-- druid 德鲁伊-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>druid</artifactId>-->
+            <!--<version>${druid.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -112,19 +112,36 @@
         </dependency>
 
         <!--测试swagger-->
-        <!--<dependency>
+        <dependency>
             <groupId>com.spring4all</groupId>
             <artifactId>spring-boot-starter-swagger</artifactId>
             <version>1.5.1.RELEASE</version>
-        </dependency>-->
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>com.jd.ecc.commons</groupId>-->
+            <!--<artifactId>ecc-commons-web</artifactId>-->
+            <!--<version>1.0.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
         <dependency>
-            <groupId>com.jd.ecc.commons</groupId>
-            <artifactId>ecc-commons-web</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Camden.SR7</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <!--打包文件名-->
@@ -154,7 +171,7 @@
         <profile>
             <id>local-masterslave</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <profileActive>local-masterslave</profileActive>
@@ -165,10 +182,21 @@
         <profile>
             <id>local-sharding-masterslave</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <profileActive>local-sharding-masterslave</profileActive>
+            </properties>
+        </profile>
+
+        <!--本地读写分离-->
+        <profile>
+            <id>b2b_pre1</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>b2b_pre1</profileActive>
             </properties>
         </profile>
     </profiles>
