@@ -1,11 +1,15 @@
 package com.jd.b2b.shardingjdbc;
 
+import com.alibaba.druid.filter.stat.StatFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author songwanke
@@ -13,7 +17,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @MapperScan("com.jd.b2b.shardingjdbc.mapper")
 @SpringBootApplication
-@EnableDiscoveryClient
+// @EnableDiscoveryClient
 public class ShardingJdbcDataMain extends SpringBootServletInitializer{
 
     /**
@@ -33,5 +37,12 @@ public class ShardingJdbcDataMain extends SpringBootServletInitializer{
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(ShardingJdbcDataMain.class);
+    }
+
+    @Bean
+    public StatFilter statFilter(){
+        StatFilter statFilter = new StatFilter();
+        statFilter.setLogSlowSql(true);
+        return statFilter;
     }
 }
