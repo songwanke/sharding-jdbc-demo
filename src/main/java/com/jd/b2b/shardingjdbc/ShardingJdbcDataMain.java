@@ -1,6 +1,7 @@
 package com.jd.b2b.shardingjdbc;
 
 import com.alibaba.druid.filter.stat.StatFilter;
+import io.shardingjdbc.spring.boot.SpringBootConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,6 +10,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @MapperScan("com.jd.b2b.shardingjdbc.mapper")
 @SpringBootApplication
+//@ComponentScan(basePackageClasses = {SpringBootConfiguration.class,ShardingJdbcDataMain.class})
 // @EnableDiscoveryClient
 public class ShardingJdbcDataMain extends SpringBootServletInitializer{
 

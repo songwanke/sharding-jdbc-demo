@@ -19,4 +19,10 @@ public interface OrderMapper {
     List<Order> selector();
 
     List<Order> selectAll();
+
+    Long insertBath(List<Order> list);
+
+    Long updateStatus(Order model);
+
+    Order select(Long orderId);
 }

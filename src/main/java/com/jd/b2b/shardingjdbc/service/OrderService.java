@@ -37,4 +37,10 @@ public interface OrderService {
      */
 
     List<Order> selectAll();
+
+    /**
+     * 批量插入
+     * @param list
+     */
+    Long insertBath(List<Order> list);
 }

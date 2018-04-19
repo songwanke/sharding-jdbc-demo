@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class Order {
 
-    @ApiModelProperty(name = "orderId",hidden = true)
+    @ApiModelProperty(name = "orderId",required = false)
     private Long orderId;
 
     @ApiModelProperty(name = "userId")
@@ -48,5 +48,14 @@ public class Order {
                 ", userId=" + userId +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public Order() {
+    }
+
+    public Order(Long orderId, Integer userId, String status) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.status = status;
     }
 }
