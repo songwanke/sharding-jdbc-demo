@@ -16,12 +16,12 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * 这是个配置文档操作类，用来读取和配置ini配置文档
+ * @author songwanke
+ * @date 2018/4/10
  */
-public class IniFileUtils {
+public class ReadIniconfigUtil {
 
-
-    private static final Logger LOG = LoggerFactory.getLogger(IniFileUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReadIniconfigUtil.class);
 
     /**
      * 读取 ini 配置文件 获取环境名称
@@ -210,8 +210,19 @@ public class IniFileUtils {
             if (tempList == null || tempList.size() == 0) {
                 continue;
             }
-
-            result.put(key, listResult.get(key));
+            if (tempList.get(0).contains("=")) { //name=value对，存放在MAP里面
+                Map<String, String> properties = new HashMap<>();
+                List<String> values = new ArrayList<>();
+                for (String s : tempList) {
+                    int delimiterPos = s.indexOf("=");
+                    //处理等号前后的空格
+//                    properties.put(s.substring(0, delimiterPos).trim(), s.substring(delimiterPos + 1, s.length()).trim());
+                    values.add(s.substring(delimiterPos + 1, s.length()).trim());
+                }
+                result.put(key, values);
+            } else {
+                result.put(key, listResult.get(key));
+            }
         }
         return result;
     }
@@ -240,5 +251,4 @@ public class IniFileUtils {
         }
         return result.trim();
     }
-
 }
