@@ -31,17 +31,17 @@ public class OrderItemServiceImplTest extends BasetTest{
         OrderItem orderItem = new OrderItem();
         for (int i=0;i<5;i++){
             Order order = new Order();
-            order.setUserId(55);
+            order.setUserId(56);
             order.setStatus("ok");
             orderService.insert(order);
             long orderId = order.getOrderId();
-
+            log.info("orderId：{}",orderId);
             orderItem.setOrderId(orderId);
             orderItem.setStatus("ok");
-            orderItem.setUserId(55);
+            orderItem.setUserId(56);
             orderItemService.insert(orderItem);
 
-            orderService.delete(orderId);
+//            orderService.delete(orderId);
         }
     }
 
@@ -76,6 +76,7 @@ public class OrderItemServiceImplTest extends BasetTest{
             log.info(orderItem.toString());
         });*/
 
+
         List<OrderItem> orderItemList = orderItemService.selectAll();
         log.info("orderItemList:{}",orderItemList.size());
        /* orderItemList.stream().forEach(orderItem -> {
@@ -108,4 +109,6 @@ public class OrderItemServiceImplTest extends BasetTest{
             log.info(order.toString());
         });
     }
+
+
 }

@@ -19,8 +19,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @MapperScan("com.jd.b2b.shardingjdbc.mapper")
 @SpringBootApplication
-//@ComponentScan(basePackageClasses = {SpringBootConfiguration.class,ShardingJdbcDataMain.class})
-// @EnableDiscoveryClient
+@ComponentScan(basePackageClasses = {SpringBootConfiguration.class,ShardingJdbcDataMain.class})
+ @EnableDiscoveryClient
 public class ShardingJdbcDataMain extends SpringBootServletInitializer{
 
     /**

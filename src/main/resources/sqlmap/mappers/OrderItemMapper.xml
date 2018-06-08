@@ -31,6 +31,17 @@
         t_order o, t_order_item i
         WHERE
         o.order_id = i.order_id
+        AND o.user_id = 56
+        limit 10
+    </select>
+
+    <select id="queryRange" resultMap="baseResultMap">
+         SELECT
+        i.*
+        FROM
+        t_order_item i
+        WHERE
+        i.user_id BETWEEN 44 and 55
         limit 10
     </select>
 </mapper>

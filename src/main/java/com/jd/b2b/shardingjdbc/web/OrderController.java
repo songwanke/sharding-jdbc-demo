@@ -4,6 +4,7 @@ import com.jd.b2b.shardingjdbc.domain.Order;
 import com.jd.b2b.shardingjdbc.service.OrderService;
 import com.jd.ecc.commons.db.hintmanager.HintManagerUtil;
 import io.shardingjdbc.core.api.HintManager;
+import io.shardingjdbc.core.api.algorithm.sharding.ShardingValue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,10 @@ public class OrderController {
     @RequestMapping(value = "/selectAll",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8")
     public List<Order> selctAll() throws Exception {
 
-//        HintManager hintManager = HintManagerUtil.hintManagerStart();
+        HintManager hintManager = HintManager.getInstance();
+        hintManager.setDatabaseShardingValue("user_id");
         List<Order> orders = orderService.selectAll();
-//        HintManagerUtil.hintManagerClose(hintManager);
+        hintManager.close();
         log.info("orders：{},orders.size:{}",orders,orders.size());
         return orders;
     }

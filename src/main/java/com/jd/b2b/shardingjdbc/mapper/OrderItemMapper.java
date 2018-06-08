@@ -11,5 +11,6 @@ public interface OrderItemMapper {
     void delete(Long orderItemId);
     
     List<OrderItem> selectAll();
-    
+
+    List<OrderItem> queryRange();
 }

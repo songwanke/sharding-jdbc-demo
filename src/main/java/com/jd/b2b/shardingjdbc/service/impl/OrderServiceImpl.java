@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.selector();
     }
 
-    // @HintRoute
+//     @HintRoute
     @Override
     public List<Order> selectAll() {
         return orderMapper.selectAll();
@@ -98,11 +98,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Long insertBath(List<Order> list) {
-        List<Order> orders = orderMapper.selectAll();
+//        List<Order> orders = orderMapper.selectAll();
         orderMapper.insertBath(list);
-        int a = 0;
-        a = 1 / a;
-        List<Order> orders1 = orderMapper.selectAll();
+//        int a = 0;
+//        a = 1 / a;
+//        List<Order> orders1 = orderMapper.selectAll();
         return 1L;
     }
 
@@ -111,15 +111,15 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(timeout = 2000)
     public Long insert(Order model) {
 
-        Order order1 = orderMapper.select(model.getOrderId());
-        if(null == order1){
-            Long orderId = orderMapper.insert(model);
-        }else{
-            model.setStatus("2345");
-            model.setOrderId(order1.getOrderId());
-            Long insert = orderMapper.updateStatus(model);
-        }
-
-        return 1L;
+//        Order order1 = orderMapper.select(model.getOrderId());
+//        if(null == order1){
+//            Long orderId = orderMapper.insert(model);
+//        }else{
+//            model.setStatus("2345");
+//            model.setOrderId(order1.getOrderId());
+//            Long insert = orderMapper.updateStatus(model);
+//        }
+        Long orderId = orderMapper.insert(model);
+        return orderId;
     }
 }

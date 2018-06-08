@@ -2,6 +2,7 @@ package com.jd.b2b.shardingjdbc.web;
 
 import com.jd.b2b.shardingjdbc.domain.OrderItem;
 import com.jd.b2b.shardingjdbc.service.OrderItemService;
+import io.shardingjdbc.core.api.HintManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,10 @@ public class OrderItemController {
 
     @RequestMapping(value = "/selectAll",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8")
     public List<OrderItem> selectAll(){
-
+        HintManager hintManager = HintManager.getInstance();
+        hintManager.setDatabaseShardingValue(45);
         List<OrderItem> orderItems = orderItemService.selectAll();
+        hintManager.close();
         log.info("orderItems：{}",orderItems.size());
 
         return orderItems;

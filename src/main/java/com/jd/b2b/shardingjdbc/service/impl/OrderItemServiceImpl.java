@@ -3,6 +3,7 @@ package com.jd.b2b.shardingjdbc.service.impl;
 import com.jd.b2b.shardingjdbc.domain.OrderItem;
 import com.jd.b2b.shardingjdbc.mapper.OrderItemMapper;
 import com.jd.b2b.shardingjdbc.service.OrderItemService;
+import com.jd.ecc.commons.db.hintmanager.HintRoute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +32,11 @@ public class OrderItemServiceImpl implements OrderItemService{
     }
 
     @Override
-    @Transactional
+//    @HintRoute
     public List<OrderItem> selectAll() {
         List<OrderItem> orderItems = orderItemMapper.selectAll();
+
+//        List<OrderItem> orderItems = orderItemMapper.queryRange();
         return orderItems;
     }
 }

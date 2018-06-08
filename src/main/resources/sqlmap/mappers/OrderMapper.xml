@@ -69,11 +69,12 @@
             user_id, status
             )
             VALUES
-            <foreach collection="list" separator=";" item="order" index="index"></foreach>
+            <foreach collection="list" separator="," item="order" index="index">
             (
             #{order.userId,jdbcType=INTEGER},
             #{order.status,jdbcType=VARCHAR}
             )
+            </foreach>
     </insert>
 
 
